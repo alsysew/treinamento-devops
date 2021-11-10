@@ -72,16 +72,20 @@
 provider "aws" {
   region = "sa-east-1"
 }
+
+
 resource "aws_instance" "web" {
-  subnet_id     = "subnet-05d2f48a5e97f0b1a"
-  ami= "ami-054a31f1b3bf90920"
+  for_each = toset(["1","2","3"])
+  subnet_id     = "subnet-0f4dc32624c2fb345"
+  ami= "ami-0856ceeafc1be110c"
   instance_type = "t2.micro"
+  associate_public_ip_address = true
   root_block_device {
     encrypted = true
     volume_size = 8
   }
   tags = {
-    Name = "ec2-zerati-tf"
+    Name = "ec2-santi-tf-${each.key}"
   }
 }
 # /////
