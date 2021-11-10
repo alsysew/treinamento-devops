@@ -75,7 +75,7 @@ provider "aws" {
 
 
 resource "aws_instance" "web" {
-  for_each = toset(["1","2","3"])
+#  for_each = toset(["1","2","3"])
   subnet_id     = "subnet-0f4dc32624c2fb345"
   ami= "ami-0856ceeafc1be110c"
   instance_type = "t2.micro"
@@ -85,7 +85,30 @@ resource "aws_instance" "web" {
     volume_size = 8
   }
   tags = {
-    Name = "ec2-santi-tf-${each.key}"
+    Name = "ec2-santi-tf-6" #${each.key}"
   }
 }
+
+
+# https://www.terraform.io/docs/language/values/outputs.html
+output "instance_public_dns" {
+  value = [
+    aws_instance.web.public_dns, 
+    aws_instance.web.public_ip, 
+    aws_instance.web.private_ip,
+    "ssh -i ~/.ssh/Treinamento-dia2-keypair.pem ubuntu@${aws_instance.web.public_dns}"
+
+  ]
+  description = "Mostra os IPs publicos e privados da maquina criada."
+}
+
 # /////
+
+#output "instance_ip_add" {
+#  value = [
+#          for key, item in aws_instance.web:
+#                "${item.private_ip} - ${item.public_dns}"
+#         ]
+#  description = "Mostra os IPs publicos e privados da maquina criada."
+#}
+
