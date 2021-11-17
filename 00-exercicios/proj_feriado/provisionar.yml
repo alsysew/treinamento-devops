@@ -1,0 +1,56 @@
+- hosts: all
+  handlers:
+
+  tasks:
+    - name: "Roda: sudo apt update"
+      become: yes
+      apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 86400 #Um dia
+    
+    - name: "Instala pacotes em lote"
+      apt:
+        name: "{{ item }}"
+        state: latest
+      become: yes 
+      with_items:
+        - php7.4
+        - apache2
+        - libapache2-mod-php7.4
+        # - php-mysql
+        - php-curl
+        # - mysql-server
+        # - python3-pycurl
+        # - python3-mysqldb
+        - unzip
+
+    - name: "Fazendo downlaod do tema bootstrap"
+      get_url:
+        url: "https://github.com/startbootstrap/startbootstrap-grayscale/archive/gh-pages.zip"
+        dest: "/tmp/bs_theme.zip"
+    
+    - name: "Fazendo descompactação dos arquivos do Tema bootstrap"
+      unarchive:
+        src: "/tmp/bs_theme.zip"
+        dest: "/var/www"
+        remote_src: yes
+      become: yes
+
+    - name: "altera apache"
+      replace:
+        path: '/etc/apache2/sites-available/000-default.conf'
+        regexp: "{{ item.regex }}"
+        replace: "{{ item.value }}"
+      with_items:
+        - { regex: '/var/www/html', value: '/var/www/startbootstrap-grayscale-gh-pages' }
+      become: yes
+
+    - name: "restart apache"
+      service:
+        name: apache2
+        state: restarted
+      become: yes
+
+
+    
