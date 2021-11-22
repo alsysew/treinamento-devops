@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /var/lib/jenkins/workspace/PipelineDevSimples/08-jenkins/deploy-infra-img-java-app/terraform
+cd 08-jenkins/deploy-infra-img-java-app/terraform
 terraform init
 terraform apply -auto-approve
 
@@ -15,5 +15,5 @@ sleep 10 # 10 segundos
 
 cd ../ansible
 
-echo "Executando ansible ::::: [ ansible-playbook -i hosts provisionar.yml -u ubuntu --private-key /home/ubuntu/.ssh/Treinamento-dia2-keypair.pem ]"
-ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i hosts provisionar.yml -u ubuntu --private-key /home/ubuntu/.ssh/Treinamento-dia2-keypair.pem
+echo "Executando ansible ::::: [ ansible-playbook -i hosts provisionar.yml -u ubuntu --private-key ~/.ssh/Treinamento-dia2-keypair.pem ]"
+ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i hosts provisionar.yml -u ubuntu --private-key ~/.ssh/Treinamento-dia2-keypair.pem
