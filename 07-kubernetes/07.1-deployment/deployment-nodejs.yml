@@ -1,27 +1,54 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nodejs-deployment
-  # namespace: umnamespace # para colocar em um namespace diferente
+  name: java-deployment
 spec:
-  template:
+  template: 
     metadata:
-      name: pod-nodejs
+      name: santi-nodejs
       labels:
-        app: lable-pod-nodejs
+        app: santi-nodejs
     spec:
       containers:
-        - name: container-nodejs
-          image: didox/app-imersao-docker-nodejs
+        - name: container-pod-cube
+          image: alsysew/validador-cpf-java:v1.0.1
           ports:
             - containerPort: 3000
-          # env:
-          #   - name: "DATABASE_URLS"
-          #     value: "https://usuario@senha:mysql.server:3306"
+
   replicas: 3
   selector:
     matchLabels:
-      app: lable-pod-nodejs
+      app: java-deployment
+
+
+
+
+
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: nodejs-deployment
+#   # namespace: umnamespace # para colocar em um namespace diferente
+# spec:
+#   template:
+#     metadata:
+#       name: pod-nodejs
+#       labels:
+#         app: lable-pod-nodejs
+#     spec:
+#       containers:
+#         - name: container-nodejs
+#           image: didox/app-imersao-docker-nodejs
+#           ports:
+#             - containerPort: 3000
+#           # env:
+#           #   - name: "DATABASE_URLS"
+#           #     value: "https://usuario@senha:mysql.server:3306"
+#   replicas: 3
+#   selector:
+#     matchLabels:
+#       app: lable-pod-nodejs
 
 
 # $ kubectl apply -f deployment-nodejs.yml

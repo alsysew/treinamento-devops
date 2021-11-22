@@ -1,12 +1,12 @@
 #!/bin/bash
 
-ANSIBLE_OUT=$(ansible-playbook -i hosts provisionar.yml -u ubuntu --private-key ~/Desktop/devops/treinamentoItau)
+ANSIBLE_OUT=$(ansible-playbook -i hosts provisionar.yml -u ubuntu --private-key ~/.ssh/Treinamento-dia2-keypair.pem)
 echo $ANSIBLE_OUT
 
 ## Mac ##
-MYSQL_POD_NAME=$(echo $ANSIBLE_OUT | grep -oE "(mysql-.*? )" )
+# MYSQL_POD_NAME=$(echo $ANSIBLE_OUT | grep -oE "(mysql-.*? )" )
 ## Linux ##
-# MYSQL_POD_NAME=$(echo $ANSIBLE_OUT | grep -oP "(mysql-.*? )" )
+MYSQL_POD_NAME=$(echo $ANSIBLE_OUT | grep -oP "(mysql-.*? )" )
 
 cat <<EOF > restore-dump-mysql.yml
 - hosts: all
@@ -19,4 +19,4 @@ cat <<EOF > restore-dump-mysql.yml
       shell: cat /root/k8s-deploy/1.2-dump-mysql.sql  | kubectl exec -it $MYSQL_POD_NAME --tty -- mysql -uroot -ppassword_mysql SpringWebYoutubeTest
 EOF
 
-ansible-playbook -i hosts restore-dump-mysql.yml -u ubuntu --private-key ~/Desktop/devops/treinamentoItau
+ansible-playbook -i hosts restore-dump-mysql.yml -u ubuntu --private-key ~/.ssh/Treinamento-dia2-keypair.pem

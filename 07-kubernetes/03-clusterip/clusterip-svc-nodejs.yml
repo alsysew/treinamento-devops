@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: clusterip-didox
+  name: clusterip-santi
 spec:
   type: ClusterIP
   selector:
-    app: label-imersao-nodejs
+    app: santi-nodejs
   ports:
     - port: 3000
       targetPort: 3000
