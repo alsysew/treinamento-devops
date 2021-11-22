@@ -1,8 +1,8 @@
 #!/bin/bash
 
 cd 08-jenkins/deploy-infra-img-java-app/terraform
-/home/ubuntu/terraform init
-/home/ubuntu/terraform apply -auto-approve
+terraform init
+terraform apply -auto-approve
 
 echo "Aguardando criação de maquinas ..."
 sleep 10 # 10 segundos
@@ -15,5 +15,5 @@ sleep 10 # 10 segundos
 
 cd ../ansible
 
-echo "Executando ansible ::::: [ ansible-playbook -i hosts provisionar.yml -u ubuntu --private-key /var/lib/jenkins/.ssh/id_rsa ]"
-ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i hosts provisionar.yml -u ubuntu --private-key /var/lib/jenkins/.ssh/id_rsa
+echo "Executando ansible ::::: [ ansible-playbook -i hosts provisionar.yml -u ubuntu --private-key /home/ubuntu/.ssh/Treinamento-dia2-keypair.pem ]"
+ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i hosts provisionar.yml -u ubuntu --private-key /home/ubuntu/.ssh/Treinamento-dia2-keypair.pem
